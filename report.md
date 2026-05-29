@@ -15,6 +15,14 @@
 
 ---
 
+## 🤖 Antigravity AI 協同操作流程 (Collaboration Workflow)
+
+本專案係採用先進的 Antigravity AI 協同開發環境進行。以下為本專案從啟動到提交迭代的完整操作流程圖：
+
+![Antigravity 操作流程整理](antigravity_workflow.jpg)
+
+---
+
 ## 🛠️ 開發里程碑與交付物 (Milestones & Deliverables)
 
 本日開發工作已圓滿達成以下里程碑：
