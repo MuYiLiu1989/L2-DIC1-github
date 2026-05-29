@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="陳慕義的個人介紹與動態即時時間顯示網頁">
+    <title>Hello - 陳慕義 (Chen Mu-yi)</title>
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+TC:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-glow: linear-gradient(90deg, #818cf8, #c084fc, #f472b6);
+            --accent-solid: #a78bfa;
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Subtle animated background mesh particles */
+        body::before, body::after {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        body::before {
+            background: #818cf8;
+            top: 20%;
+            left: 25%;
+            animation: floatBall 20s infinite alternate;
+        }
+
+        body::after {
+            background: #f472b6;
+            bottom: 20%;
+            right: 25%;
+            animation: floatBall 25s infinite alternate-reverse;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatBall {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
+        }
+
+        /* Glassmorphism Card Wrapper */
+        main {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 540px;
+            padding: 3rem 2.5rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+        }
+
+        main:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(129, 140, 248, 0.15);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Header / Hello text */
+        .greeting-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .hello-tag {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 6px 16px;
+            background: rgba(129, 140, 248, 0.15);
+            border: 1px solid rgba(129, 140, 248, 0.3);
+            border-radius: 50px;
+            color: #a5b4fc;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(129, 140, 248, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(129, 140, 248, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(129, 140, 248, 0); }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 2rem;
+        }
+
+        .gradient-text {
+            background: var(--accent-glow);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textFlow 4s linear infinite;
+        }
+
+        @keyframes textFlow {
+            to { background-position: 200% center; }
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+            margin: 2rem 0;
+        }
+
+        /* Dynamic Clock/Calendar section */
+        .time-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: background 0.3s;
+        }
+
+        .time-box:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .date-display {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-display {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-variant-numeric: tabular-nums;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.2rem;
+        }
+
+        .timezone-display {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-solid);
+            font-weight: 600;
+        }
+
+        /* Footer info */
+        footer {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        /* Responsive refinements */
+        @media (max-width: 480px) {
+            main {
+                padding: 2.5rem 1.5rem;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .time-display {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main id="main-container">
+        <div class="greeting-container">
+            <span class="hello-tag" id="hello-badge">Hello! Welcome</span>
+            <h1>
+                我的名字：<br>
+                <span class="gradient-text" id="name-display">陳慕義</span>
+            </h1>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="time-box" id="time-container">
+            <div class="date-display" id="date-text">2026 年 05 月 29 日</div>
+            <div class="time-display" id="time-text">11:27:19</div>
+            <div class="timezone-display" id="timezone-text">台北標準時間 (UTC+8)</div>
+        </div>
+
+        <footer>
+            Designed with Elegance • Real-time Sync
+        </footer>
+    </main>
+
+    <script>
+        // Update time dynamically
+        function updateDateTime() {
+            const dateTextElement = document.getElementById('date-text');
+            const timeTextElement = document.getElementById('time-text');
+            const timezoneElement = document.getElementById('timezone-text');
+
+            const now = new Date();
+
+            // Date options
+            const dateOptions = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                weekday: 'long' 
+            };
+            
+            // Format date to Traditional Chinese format
+            const formattedDate = now.toLocaleDateString('zh-TW', dateOptions);
+            
+            // Format time with 2-digit padding
+            const pad = (num) => String(num).padStart(2, '0');
+            const hours = pad(now.getHours());
+            const minutes = pad(now.getMinutes());
+            const seconds = pad(now.getSeconds());
+            const formattedTime = `${hours}:${minutes}:${seconds}`;
+
+            // Timezone detection
+            const timezoneName = Intl.DateTimeFormat('zh-TW', { timeZoneName: 'long' })
+                .formatToParts(now)
+                .find(part => part.type === 'timeZoneName').value;
+
+            // Render to DOM
+            dateTextElement.textContent = formattedDate;
+            timeTextElement.textContent = formattedTime;
+            timezoneElement.textContent = timezoneName;
+        }
+
+        // Run immediately
+        updateDateTime();
+
+        // Update every second
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>
