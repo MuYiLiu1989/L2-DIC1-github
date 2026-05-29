@@ -4,6 +4,8 @@ A premium, highly aesthetic, real-time dynamic hello-world & clock web applicati
 
 Designed with modern web aesthetics including glassmorphism, fluid gradient backgrounds, and dynamic micro-animations.
 
+🔗 **Live Demo**: [https://muyiliu1989.github.io/L2-DIC1-github/](https://muyiliu1989.github.io/L2-DIC1-github/)
+
 ---
 
 ## ✨ Features
